@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
-	"github.com/MelnikovNA/noolingo-user-service/internal/repository"
+	"github.com/noolingo/user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/repository"
 	"github.com/sirupsen/logrus"
 )
 
@@ -24,6 +24,7 @@ type Auth interface {
 	SignIn(ctx context.Context, email string, password string) (accessToken string, refreshToken string, err error)
 	Refresh(ctx context.Context, refreshToken string) (newAccessToken string, newRefreshToken string, err error)
 	SignOut(ctx context.Context, accessToken, refreshToken string) error
+	DeleteUser(ctx context.Context, id string) error
 }
 
 type Params struct {

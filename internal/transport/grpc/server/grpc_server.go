@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/service"
-	"github.com/MelnikovNA/noolingoproto/codegen/go/noolingo"
+	"github.com/noolingo/proto/codegen/go/noolingo"
+	"github.com/noolingo/user-service/internal/service"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/app"
+	"github.com/noolingo/user-service/internal/app"
 )
 
 // не пушить!!!!

@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/domain"
 )
 
 type Repository interface {

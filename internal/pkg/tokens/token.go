@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/domain"
 	"github.com/golang-jwt/jwt/v5"
 )
 

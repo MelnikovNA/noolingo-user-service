@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/domain"
 )
 
 var ErrNotFound = errors.New("user not found")

@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"strings"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/domain"
 
 	_ "github.com/go-sql-driver/mysql"
 )

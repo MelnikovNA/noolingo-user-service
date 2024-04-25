@@ -6,11 +6,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
-	"github.com/MelnikovNA/noolingo-user-service/internal/drivers/mysql"
-	"github.com/MelnikovNA/noolingo-user-service/internal/repository"
-	"github.com/MelnikovNA/noolingo-user-service/internal/service"
-	grpcserver "github.com/MelnikovNA/noolingo-user-service/internal/transport/grpc/server"
+	"github.com/noolingo/user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/drivers/mysql"
+	"github.com/noolingo/user-service/internal/repository"
+	"github.com/noolingo/user-service/internal/service"
+	grpcserver "github.com/noolingo/user-service/internal/transport/grpc/server"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -32,8 +32,6 @@ func Run(config string) error {
 
 	log := logrus.New()
 	log.Infof("Hello app!%#v", cfg)
-
-	//token := tokens.New(&cfg.Auth)
 
 	db, err := mysql.New(&cfg.Mysql)
 	if err != nil {

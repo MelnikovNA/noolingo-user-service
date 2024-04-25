@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
-	"github.com/MelnikovNA/noolingo-user-service/internal/pkg/tokens"
-	"github.com/MelnikovNA/noolingo-user-service/internal/repository"
-	"github.com/MelnikovNA/noolingoproto/codegen/go/apierrors"
-	enc "github.com/MelnikovNA/sha256password"
+	"github.com/noolingo/proto/codegen/go/apierrors"
+	enc "github.com/noolingo/sha256password"
+	"github.com/noolingo/user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/pkg/tokens"
+	"github.com/noolingo/user-service/internal/repository"
 	"github.com/sirupsen/logrus"
 )
 
@@ -32,6 +32,14 @@ func NewAuthService(p *Params) *AuthService {
 		accessToken:  *tokens.New(&p.Config.Auth),
 		refreshToken: *tokens.New(&p.Config.Auth),
 	}
+}
+
+func (a *AuthService) DeleteUser(ctx context.Context, id string) error {
+	err := a.repository.DeleteUser(ctx, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (a *AuthService) SignIn(ctx context.Context, email string, password string) (accessToken string, refreshToken string, err error) {

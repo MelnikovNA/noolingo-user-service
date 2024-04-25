@@ -3,10 +3,11 @@ package grpcserver
 import (
 	"context"
 
-	"github.com/MelnikovNA/noolingo-user-service/internal/domain"
-	"github.com/MelnikovNA/noolingo-user-service/internal/service"
-	"github.com/MelnikovNA/noolingoproto/codegen/go/common"
-	"github.com/MelnikovNA/noolingoproto/codegen/go/noolingo"
+	"github.com/noolingo/proto/codegen/go/apierrors"
+	"github.com/noolingo/proto/codegen/go/common"
+	"github.com/noolingo/proto/codegen/go/noolingo"
+	"github.com/noolingo/user-service/internal/domain"
+	"github.com/noolingo/user-service/internal/service"
 	"github.com/sirupsen/logrus"
 )
 
@@ -40,9 +41,6 @@ func (u UserServer) SignUp(ctx context.Context, req *noolingo.SignUpRequest) (*c
 		Email:    req.Email,
 		Password: req.Password,
 	})
-	if err != nil {
-		return nil, err
-	}
 	return newResponse(err)
 }
 
@@ -57,7 +55,11 @@ func (u UserServer) SignIn(ctx context.Context, requset *noolingo.SignInRequest)
 	}, nil
 }
 
-func (u UserServer) Logout(_ context.Context, _ *noolingo.LogoutRequest) (*common.Response, error) {
+func (u UserServer) Logout(ctx context.Context, req *noolingo.LogoutRequest) (*common.Response, error) {
+	_, err := Auth(ctx)
+	if err != nil {
+		return nil, err
+	}
 	panic("not implemented") // TODO: Implement
 }
 
@@ -67,7 +69,7 @@ func (u UserServer) GetUser(ctx context.Context, req *noolingo.GetUserRequest) (
 		return nil, err
 	}
 	u.logger.Printf("userID: %v", r.UserID)
-	user, err := u.service.User.GetUserByID(ctx, req.Id)
+	user, err := u.service.User.GetUserByID(ctx, r.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -79,14 +81,20 @@ func (u UserServer) UpdateUser(ctx context.Context, req *noolingo.UpdateUserRequ
 		Name:  req.Name,
 		Email: req.Email,
 	})
-	if err != nil {
-		return nil, err
-	}
 	return newResponse(err)
 }
 
-func (u UserServer) DeleteUser(_ context.Context, _ *noolingo.DeleteUserRequest) (*common.Response, error) {
-	panic("not implemented") // TODO: Implement
+func (u UserServer) DeleteUser(ctx context.Context, req *noolingo.DeleteUserRequest) (*common.Response, error) {
+	r, err := Auth(ctx)
+	if err != nil {
+		return newResponse(err)
+	}
+	u.logger.Printf("userID: %v Deleted", r.UserID)
+	if r.UserID != req.Id {
+		return newResponse(apierrors.ErrInvalidPayload)
+	}
+	err = u.service.Auth.DeleteUser(ctx, r.UserID)
+	return newResponse(err)
 }
 
 func (u UserServer) CreateUser(ctx context.Context, req *noolingo.CreateUserRequest) (*common.Response, error) {
