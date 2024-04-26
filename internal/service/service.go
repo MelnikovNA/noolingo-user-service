@@ -8,11 +8,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type Service interface {
-
-	//SignIn(ctx context.Context, login string, password string)
-}
-
 type User interface {
 	GetUserByID(ctx context.Context, id string) (*domain.User, error)
 	UpdateUser(ctx context.Context, user *domain.User) error
